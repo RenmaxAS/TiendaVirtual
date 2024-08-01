@@ -1,0 +1,19 @@
+/**/
+.producto {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.producto label, .producto select, .producto input {
+    margin-bottom: 0;
+}
+
+.productos-table th, .productos-table td {
+    vertical-align: middle;
+}
+
+.importe-total-label {
+    font-size: 24px;
+    font-weight: bold;
+}

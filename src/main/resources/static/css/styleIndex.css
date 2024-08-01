@@ -1,0 +1,29 @@
+.ganancias-box {
+    background-color: #FFA500;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.titulo {
+    color: #000;
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+.monto {
+    color: #000;
+    font-weight: bold;
+    font-size: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.monto i {
+    margin-right: 10px;
+}
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+}

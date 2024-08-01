@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tienda</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Bootstrap JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styleToast.css">
+    <script src="/javascript/styleProduct.js"></script>
+    <script src="/javascript/styleToast.js"></script>
+</head>
+<body>
+    <header th:replace="~{layout/plantilla :: header}"></header>
+    <div class="container-fluid">
+        <div class="row flex-grow-1">
+            <nav th:replace="~{layout/plantilla :: menu}"></nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 content">
+                <br/>
+                <p class="fs-1 fw-bold text-center-custom" th:text="#{producto.lista-titulo}"></p>
+                <div class="mb-3 d-flex align-items-center">
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/agregar/producto}" class="btn btn-primary me-2" role="button">
+                        <i class="bi bi-person-plus"></i> [[#{accion.agregar}]]
+                    </a>
+                    <button id="editButton" class="btn btn-warning me-2" disabled>
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button id="deleteButton" class="btn btn-danger me-2" disabled>
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                    <button id="reactiveButton" class="btn btn-success me-2" disabled>
+                        <i class="bi bi-arrow-repeat"></i> Reactivar
+                    </button>
+                    <form method="get" action="/generateReportProductList">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-filetype-pdf"></i> Descargar Reporte Productos
+                        </button>
+                    </form>
+                </div>
+                <div class="col">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info">
+                            <i class="bi bi-person-lines-fill"></i> Listar Por Estado
+                        </button>
+                        <button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="filtrarProductos('A')">Activo</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filtrarProductos('I')">Inactivo</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filtrarProductos('T')">Todos</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filtrarProductos('VENCER')">Por Vencer</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="filtrarProductos('VENCIDO')">Vencidos</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div th:if="${productos != null and !productos.empty}">
+                    <div class="table-container">
+                        <div class="table-wrapper">
+                            <div class="toast-container">
+                                <div class="toast align-items-center toast-success border-0" role="alert" aria-live="assertive" aria-atomic="true" th:if="${mensajeExito != null}">
+                                    <div class="d-flex">
+                                        <div class="toast-body" th:text="${mensajeExito}"></div>
+                                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                </div>
+                                <div class="toast align-items-center toast-error border-0" role="alert" aria-live="assertive" aria-atomic="true" th:if="${mensajeError != null}">
+                                    <div class="d-flex">
+                                        <div class="toast-body" th:text="${mensajeError}"></div>
+                                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <table id="productosTable" class="table table-striped" border="4">
+                                <thead>
+                                <tr>
+                                    <th th:text="#{producto.numeral}"></th>
+                                    <th th:text="#{producto.nombre}"></th>
+                                    <th th:text="#{producto.marca}"></th>
+                                    <th th:text="#{producto.formato}"></th>
+                                    <th th:text="#{producto.costo}"></th>
+                                    <th th:text="#{producto.precio}"></th>
+                                    <th th:text="#{producto.stock}"></th>
+                                    <th th:text="#{producto.imagen}"></th>
+                                    <th th:text="#{producto.fecha_vencimiento}"></th>
+                                    <!--<th th:text="#{cliente.estado}"></th>-->
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="producto : ${productos}">
+                                    <td th:text="${producto.idProducto}">Mostrar Id</td>
+                                    <td th:text="${producto.nombre}">Mostrar Nombre</td>
+                                    <td th:text="${producto.marca}">Mostrar Marca</td>
+                                    <td th:text="${producto.formato}">Mostrar Formato</td>
+                                    <td th:text="${producto.costo}">Mostrar Costo</td>
+                                    <td th:text="${producto.precio}">Mostrar Precio</td>
+                                    <td class="stock" th:text="${producto.stock}">Mostrar Stock</td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#imagenModal' + ${producto.idProducto}">
+                                            <i class="bi bi-eye-fill"></i> Ver
+                                        </button>
+                                    </td>
+                                    <td th:text="${producto.fechaVencimiento}">Mostrar Fecha Vencimiento</td>
+                                    <!--<td th:text="${producto.estado}">Mostrar Estado</td>-->
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- Modal para mostrar la imagen -->
+                            <div th:each="producto : ${productos}" th:id="'imagenModal' + ${producto.idProducto}" class="modal fade" tabindex="-1" aria-labelledby="imagenModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="imagenModalLabel">Imagen del Producto</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img th:src="@{${producto.imagen}}" class="img-fluid" alt="Imagen del Producto">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${productos == null or productos.empty}" th:text="#{producto.lista-vacia}"/>
+                <br/>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Recorrer todas las celdas de stock y formatearlas
+            document.querySelectorAll('.stock').forEach(function(cell) {
+                const stockValue = parseFloat(cell.textContent);
+                cell.textContent = stockValue % 1 === 0 ? stockValue.toFixed(0) : stockValue.toFixed(3);
+            });
+        });
+    </script>
+</body>
+</html>

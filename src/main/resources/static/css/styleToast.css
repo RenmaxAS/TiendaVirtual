@@ -1,0 +1,24 @@
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1050; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+.toast-success {
+    background-color: #28a745; /* Color verde para mensajes de éxito */
+    color: #fff; /* Color de texto blanco */
+    font-size: 1.25rem; /* Letra más grande */
+    font-weight: bold; /* Texto en negrita */
+}
+
+.toast-error {
+    background-color: #dc3545; /* Color rojo para mensajes de error */
+    color: #fff; /* Color de texto blanco */
+    font-size: 1.25rem; /* Letra más grande */
+    font-weight: bold; /* Texto en negrita */
+}
+
+.btn-close-white {
+    filter: invert(1); /* Cambiar color del botón de cierre a blanco */
+}

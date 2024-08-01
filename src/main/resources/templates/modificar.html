@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8">
+    <title>Datos del Cliente</title>
+</head>
+<body>
+    <h2>Formulario de Datos</h2>
+    <a th:href="@{/cliente/list}">Regresar</a>
+    <br/>
+    <form th:action="@{/guardar}" method="post" th:object="${cliente}">
+        <input type="hidden" name="idCliente" th:field="*{idCliente}"/>
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" th:field="*{nombre}"/>
+        <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Error Nombre</span>
+        <br/>
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" th:field="*{apellido}"/>
+        <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}">Error Apellido</span>
+        <br/>
+        <label for="celular">Celular</label>
+        <input type="text" name="celular" th:field="*{celular}"/>
+        <span th:if="${#fields.hasErrors('celular')}" th:errors="*{celular}">Error Celular</span>
+        <br/>
+        <input type="hidden" name="estado" th:field="*{estado}"/>
+        <input type="submit" name="guardar" th:text="Guardar">
+    </form>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tienda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Bootstrap JS -->
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styleToast.css">
+    <script src="/javascript/styleToast.js"></script>
+    <script src="/javascript/styleAbono.js"></script>
+
+</head>
+<body>
+    <header th:replace="~{layout/plantilla :: header}"></header>
+    <div class="container-fluid">
+        <div class="row">
+            <nav th:replace="~{layout/plantilla :: menu}"></nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 content">
+                <p class="fs-1 fw-bold text-center-custom" th:text="#{abono.formulario-titulo}"></p>
+                <div class="container mt-3">
+                    <div class="toast-container">
+                        <div class="toast align-items-center toast-success border-0" role="alert" aria-live="assertive" aria-atomic="true" th:if="${mensajeExito != null}">
+                            <div class="d-flex">
+                                <div class="toast-body" th:text="${mensajeExito}"></div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
+                        <div class="toast align-items-center toast-error border-0" role="alert" aria-live="assertive" aria-atomic="true" th:if="${mensajeError != null}">
+                            <div class="d-flex">
+                                <div class="toast-body" th:text="${mensajeError}"></div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="filterForm" action="/abonar/deudas" method="GET">
+                        <div class="container mt-2">
+                            <div class="form-group row">
+                                <div class="col-sm-6">
+                                    <label for="clienteBusqueda" class="col-form-label fw-bold">Buscar Cliente:</label>
+                                    <input type="text" id="clienteBusqueda" class="form-control"
+                                           placeholder="Ingrese el nombre del cliente">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="clienteId" class="col-form-label fw-bold">Seleccione un cliente:</label>
+                                    <select class="form-control" id="clienteId" name="clienteId" required>
+                                        <option value="" disabled selected>Seleccione un cliente</option>
+                                        <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}"
+                                                th:text="${cliente.nombre} + ' ' + ${cliente.apellido}"></option>
+                                    </select>
+                                    <div class="invalid-feedback">Debe seleccionar un cliente para proceder con la venta.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mt-3">
+                                <div class="col-sm-12 text-center">
+                                    <button type="submit" class="btn btn-primary">Buscar Deudas</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="container mt-3" th:if="${ventas != null}">
+                        <!-- Etiquetas para mostrar el nombre y apellido del cliente -->
+                        <div class="form-group row mb-3">
+                            <div class="col-sm-15">
+                                <label for="clienteNombre" class="col-form-label fw-bold">Deudas Pendientes del Cliente:</label>
+                                <label id="clienteNombre" class="col-form-label" th:text="${clienteSeleccionado != null ? clienteSeleccionado.nombre + ' ' + clienteSeleccionado.apellido : 'Seleccione un cliente'}"></label>
+                            </div>
+                        </div>
+                        <table id="deudasTable" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Fecha de Venta</th>
+                                <th>Importe de Venta</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="venta : ${ventas}">
+                                <td class="venta-id" th:text="${venta.idVenta}"></td>
+                                <td th:text="${#dates.format(venta.fechaPedido, 'dd/MM/yyyy')}"></td>
+                                <td th:text="${venta.importeTotal}"></td>
+                                <td th:text="${venta.estado}"></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary ver-abonos-btn"
+                                            data-bs-toggle="modal"
+                                            th:attr="data-bs-target='#abonosModal_' + ${venta.idVenta}">
+                                        Ver Abonos
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Parte del modal para mostrar los abonos -->
+    <div th:each="venta : ${ventas}" th:id="'abonosModal_' + ${venta.idVenta}" class="modal fade" tabindex="-1"
+         role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" th:text="'Abonos para Venta ' + ${venta.idVenta}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table id="abonosTable_${venta.idVenta}" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>IdVenta</th>
+                            <th>Importe Total</th>
+                            <th>Abono</th>
+                            <th>Deuda</th>
+                            <th>Fecha Abono</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Iterar sobre los abonos de esta venta -->
+                        <tr th:each="abono : ${venta.abonos}">
+                            <td th:text="${abono.venta.idVenta}"></td>
+                            <td th:text="${abono.venta.importeTotal}"></td>
+                            <td th:text="${abono.abono}"></td>
+                            <td th:text="${abono.deuda}"></td>
+                            <td th:text="${#dates.format(abono.fechaAbono, 'dd/MM/yyyy')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- Formulario para registrar un nuevo abono -->
+                    <form th:action="@{/abonar/nuevoAbono}" method="post">
+                        <div class="form-group">
+                            <label for="nuevoAbono" class="col-form-label fw-bold">Registrar nuevo abono:</label>
+                            <input type="number" step="0.01" min="0.10" id="nuevoAbono" name="abono" class="form-control" placeholder="Ingrese el monto del abono" required>
+                            <input type="hidden" name="ventaId" th:value="${venta.idVenta}">
+                        </div>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="btn btn-success">Registrar Abono</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+</body>
+</html>
