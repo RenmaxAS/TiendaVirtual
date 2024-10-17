@@ -27,7 +27,7 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @GetMapping("producto/list")
+    @GetMapping("/producto/list")
     public String productoList(@RequestParam(value = "estado", required = false) String estado,
                                @RequestParam(value = "vencer", required = false) Boolean vencer,
                                @RequestParam(value = "vencido", required = false) Boolean vencido,

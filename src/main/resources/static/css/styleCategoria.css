@@ -1,0 +1,49 @@
+body {
+    font-family: 'Courier New', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container-fluid {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+}
+
+.sidebar {
+    width: 230px; /* Ajustar el ancho de la barra lateral */
+    background-color: #343a40;
+    position: fixed;
+    top: 76px; /* Ajuste para coincidir con la altura del header */
+    bottom: 0;
+    overflow-y: auto;
+}
+
+.content {
+    flex: 1;
+    margin-left: 230px; /* Debe coincidir con el ancho de la barra lateral */
+    padding: 20px;
+}
+
+header {
+    height: 76px;
+    background-color: #343a40;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.table-responsive {
+    width: 100%;
+}
+
+.dataTables_filter {
+    margin-bottom: 15px; /* Ajusta el valor según la separación que desees */
+}

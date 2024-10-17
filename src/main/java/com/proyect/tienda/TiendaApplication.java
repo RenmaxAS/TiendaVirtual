@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.proyect.tienda")
 public class TiendaApplication {
 
     public static void main(String[] args) {
