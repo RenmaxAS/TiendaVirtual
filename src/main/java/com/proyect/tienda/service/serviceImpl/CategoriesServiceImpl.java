@@ -33,4 +33,14 @@ public class CategoriesServiceImpl implements CategoriesService {
     public Categories encontrarCategoria(Categories categories) {
         return categoriesDao.findById(categories.getId()).orElse(null);
     }
+
+    @Override
+    public Categories encontrarCategoriaPorId(Long id) {
+        return categoriesDao.findById(id).orElse(null);
+    }
+
+    @Override
+    public boolean existeCategotia(String categoria) {
+        return categoriesDao.findByCategoria(categoria) != null;
+    }
 }

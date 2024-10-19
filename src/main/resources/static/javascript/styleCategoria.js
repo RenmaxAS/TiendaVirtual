@@ -32,7 +32,6 @@ $(document).ready(function() {
             selectedId = null;
             $('#editButton').prop('disabled', true);
             $('#deleteButton').prop('disabled', true);
-            $('#reactiveButton').prop('disabled', true);
         } else {
             $('#categoriasTable tbody tr').removeClass('selected').css('background-color', ''); // Quita la selección de todas las filas y restablece el color
             $(this).addClass('selected');
@@ -40,7 +39,6 @@ $(document).ready(function() {
             selectedId = $(this).find('td:first').text();
             $('#editButton').prop('disabled', false);
             $('#deleteButton').prop('disabled', false);
-            $('#reactiveButton').prop('disabled', false);
         }
     });
 
@@ -68,14 +66,14 @@ $(document).ready(function() {
     // Funcionalidades de los botones del menú contextual
     $('#editOption').on('click', function() {
         if (selectedId) {
-            window.location.href = '/editarCliente/' + selectedId;
+            window.location.href = '/editarCategoria/' + selectedId;
         }
     });
 
     $('#deleteOption').on('click', function() {
         if (selectedId) {
             if (confirm('¿Estás seguro que deseas eliminar este cliente?')) {
-                window.location.href = '/eliminarCliente?idCliente=' + selectedId;
+                window.location.href = '/eliminarCategoria?id=' + selectedId;
             }
         }
     });

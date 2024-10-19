@@ -15,13 +15,15 @@
           integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
   <link rel="stylesheet" href="/css/styleCategoria.css">
+  <link rel="stylesheet" href="/css/styleToast.css">
 </head>
 <body>
   <header th:replace="~{layout/plantilla :: header}"></header>
   <div class="container-fluid">
-    <div class="sidebar" th:replace="~{layout/plantilla :: menu}"></div>
+    <div th:replace="~{layout/plantilla :: menu}"></div>
     <main class="content">
       <br/>
       <div class="container mt-5">
@@ -32,6 +34,20 @@
         <div class="table-responsive">
           <a th:href="@{/agregar/categoria}" class="btn btn-success">Agregar Nueva Categoría</a>
           <p></p>
+          <div class="toast-container">
+            <div class="toast align-items-center toast-success border-0" role="alert" aria-live="assertive" aria-atomic="true" th:if="${mensajeExito != null}">
+              <div class="d-flex">
+                <div class="toast-body" th:text="${mensajeExito}"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+            </div>
+            <div class="toast align-items-center toast-error border-0" role="alert" aria-live="assertive" aria-atomic="true" th:if="${mensajeError != null}">
+              <div class="d-flex">
+                <div class="toast-body" th:text="${mensajeError}"></div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+              </div>
+            </div>
+          </div>
           <table id="categoriasTable" class="table table-bordered table-hover">
             <thead class="table-dark">
             <tr>
@@ -62,5 +78,19 @@
   </div>
 
   <script src="/javascript/styleCategoria.js"></script>
+  <script src="/javascript/styleToast.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleButton = document.getElementById('toggleSidebar');
+      if (toggleButton) {
+        toggleButton.addEventListener('click', function() {
+          const sidebar = document.getElementById('sidebar');
+          const content = document.querySelector('.content');
+          sidebar.classList.toggle('collapsed');
+          content.classList.toggle('collapsed');
+        });
+      }
+    });
+  </script>
 </body>
 </html>

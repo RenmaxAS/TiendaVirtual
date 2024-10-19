@@ -1,6 +1,7 @@
 package com.proyect.tienda.web;
 
 import com.proyect.tienda.domain.Categories;
+import com.proyect.tienda.domain.Cliente;
 import com.proyect.tienda.service.CategoriesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,45 @@ public class CategoriesController {
     }
 
     @PostMapping("/guardar/categoria")
-    public String guardar(Categories categories, Errors errores, RedirectAttributes redirectAttributes){
+    public String guardar(Categories categories, RedirectAttributes redirectAttributes){
         String mensajeExito;
-        categoriesService.guardarCategoria(categories);
-        mensajeExito = "Categoria guardado exitosamente";
+        // Validar si la categoría ya existe antes de guardar
+        if (categoriesService.existeCategotia(categories.getCategoria())) {
+            String mensajeError = "La categoria: "+categories.getCategoria()+" ya existe";
+            redirectAttributes.addFlashAttribute("mensajeError", mensajeError);
+            return "redirect:/agregar/categoria"; // Redirigir al formulario con los errores
+        }
+
+        if(categories.getId() != null){
+            // Si el producto tiene un ID, se está editando
+            categoriesService.guardarCategoria(categories);
+            mensajeExito = "Categoria editado exitosamente";
+        } else {
+            // Si el producto no tiene un ID, se está creando uno nuevo
+            categoriesService.guardarCategoria(categories);
+            mensajeExito = "Categoria guardado exitosamente";
+        }
+
         redirectAttributes.addFlashAttribute("mensajeExito", mensajeExito);
         return "redirect:/categoria/list";
     }
+
+    @GetMapping("/editarCategoria/{id}")
+    public String editar(@PathVariable Long id, Model model) {
+        Categories categorias = categoriesService.encontrarCategoriaPorId(id);
+        model.addAttribute("categorias", categorias);
+        return "components/categoria/categoriesForm";
+    }
+
+    @GetMapping("/eliminarCategoria")
+    public String eliminar(Categories categories, RedirectAttributes redirectAttributes){
+        try {
+            categoriesService.eliminarCategoria(categories);
+            redirectAttributes.addFlashAttribute("mensajeExito", "Categoria eliminado exitosamente");
+        }catch (Exception e){
+            redirectAttributes.addFlashAttribute("mensajeError", "Error al eliminar la categoria");
+        }
+        return "redirect:/categoria/list";
+    }
+
 }

@@ -14,18 +14,29 @@ body {
 }
 
 .sidebar {
-    width: 230px; /* Ajustar el ancho de la barra lateral */
+    width: 230px; /* Ancho de la barra lateral visible */
     background-color: #343a40;
     position: fixed;
     top: 76px; /* Ajuste para coincidir con la altura del header */
     bottom: 0;
     overflow-y: auto;
+    transition: width 0.3s ease; /* Transición para suavizar el cambio */
+}
+
+.sidebar.collapsed {
+    width: 0; /* Ocultar la barra lateral */
 }
 
 .content {
     flex: 1;
     margin-left: 230px; /* Debe coincidir con el ancho de la barra lateral */
     padding: 20px;
+    transition: margin-left 0.3s ease;
+    margin-left: 230px; /* Ajustar para que coincida con el ancho de la barra lateral */
+}
+
+.content.collapsed {
+    margin-left: 0; /* Sin margen cuando la barra está oculta */
 }
 
 header {

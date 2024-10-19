@@ -1,0 +1,43 @@
+body {
+    font-family: Courier New, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+.text-center-custom {
+    text-align: center;
+}
+.container-fluid {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+}
+.sidebar {
+    transition: width 0.3s ease-in-out;
+}
+
+.sidebar.collapsed {
+    width: 0;
+    overflow: hidden;
+}
+
+.content {
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.content.collapsed {
+    margin-left: 0;
+}
+
+header {
+    height: 76px; /* Set this to the height of your header */
+    background-color: #343a40; /* Set this to match your header style */
+    color: white; /* Set this to match your header style */
+    padding: 10px; /* Adjust padding as needed */
+}
+.selected {
+    background-color: #FFA500 !important; /* Color anaranjado para resaltar más */
+    color: #000; /* Cambiar el color del texto si es necesario */
+}

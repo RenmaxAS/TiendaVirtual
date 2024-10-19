@@ -14,4 +14,8 @@ public interface CategoriesService {
     public void eliminarCategoria(Categories categories);
 
     public Categories encontrarCategoria(Categories categories);
+
+    public Categories encontrarCategoriaPorId(Long id);
+
+    public boolean existeCategotia(String categoria);
 }
