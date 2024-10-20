@@ -1,43 +1,60 @@
 body {
-    font-family: Courier New, sans-serif;
+    font-family: 'Courier New', sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
 }
-.text-center-custom {
-    text-align: center;
-}
+
 .container-fluid {
     flex: 1;
     display: flex;
     flex-direction: row;
     padding: 0;
 }
+
 .sidebar {
-    transition: width 0.3s ease-in-out;
+    width: 230px; /* Ancho de la barra lateral visible */
+    background-color: #343a40;
+    position: fixed;
+    top: 76px; /* Ajuste para coincidir con la altura del header */
+    bottom: 0;
+    overflow-y: auto;
+    transition: width 0.3s ease; /* Transición para suavizar el cambio */
 }
 
 .sidebar.collapsed {
-    width: 0;
-    overflow: hidden;
+    width: 0; /* Ocultar la barra lateral */
 }
 
 .content {
-    transition: margin-left 0.3s ease-in-out;
+    flex: 1;
+    margin-left: 230px; /* Debe coincidir con el ancho de la barra lateral */
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    margin-left: 230px; /* Ajustar para que coincida con el ancho de la barra lateral */
 }
 
 .content.collapsed {
-    margin-left: 0;
+    margin-left: 0; /* Sin margen cuando la barra está oculta */
 }
 
 header {
-    height: 76px; /* Set this to the height of your header */
-    background-color: #343a40; /* Set this to match your header style */
-    color: white; /* Set this to match your header style */
-    padding: 10px; /* Adjust padding as needed */
+    height: 76px;
+    background-color: #343a40;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
-.selected {
-    background-color: #FFA500 !important; /* Color anaranjado para resaltar más */
-    color: #000; /* Cambiar el color del texto si es necesario */
+
+.table-responsive {
+    width: 100%;
+}
+
+.dataTables_filter {
+    margin-bottom: 15px; /* Ajusta el valor según la separación que desees */
 }

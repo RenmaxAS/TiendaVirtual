@@ -32,7 +32,9 @@
         </center>
 
         <div class="table-responsive">
-          <a th:href="@{/agregar/categoria}" class="btn btn-success">Agregar Nueva Categoría</a>
+          <a th:href="@{/agregar/categoria}" class="btn btn-success">
+            <i class="bi bi-person-plus"></i> Agregar Nueva Categoría
+          </a>
           <p></p>
           <div class="toast-container">
             <div class="toast align-items-center toast-success border-0" role="alert" aria-live="assertive" aria-atomic="true" th:if="${mensajeExito != null}">
@@ -79,18 +81,6 @@
 
   <script src="/javascript/styleCategoria.js"></script>
   <script src="/javascript/styleToast.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const toggleButton = document.getElementById('toggleSidebar');
-      if (toggleButton) {
-        toggleButton.addEventListener('click', function() {
-          const sidebar = document.getElementById('sidebar');
-          const content = document.querySelector('.content');
-          sidebar.classList.toggle('collapsed');
-          content.classList.toggle('collapsed');
-        });
-      }
-    });
-  </script>
+  <script src="/javascript/menuAnimacion.js"></script>
 </body>
 </html>
