@@ -9,4 +9,6 @@ import java.util.List;
 public interface ClienteDao extends JpaRepository<Cliente, Long> {
 
     List<Cliente> findByEstado(String estado);
+
+    Cliente findByNombreAndApellido(String nombre, String apellido);
 }

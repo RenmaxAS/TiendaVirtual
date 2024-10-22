@@ -58,3 +58,15 @@ header {
 .dataTables_filter {
     margin-bottom: 15px; /* Ajusta el valor según la separación que desees */
 }
+
+.nav .nav-item .nav-link {
+    padding-left: 15px; /* Ajusta según la profundidad que desees */
+}
+
+#mantenimientoMenu .nav-item .nav-link {
+    padding-left: 35px; /* Más sangría para los submenús */
+}
+
+#transaccionMenu .nav-item .nav-link {
+    padding-left: 35px; /* Más sangría para los submenús */
+}

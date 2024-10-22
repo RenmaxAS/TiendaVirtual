@@ -35,7 +35,7 @@ $(document).ready(function() {
             $('#deleteButton').prop('disabled', true);
             $('#reactiveButton').prop('disabled', true);
         } else {
-            $('#categoriasTable tbody tr').removeClass('selected').css('background-color', ''); // Quita la selección de todas las filas y restablece el color
+            $('#clientesTable tbody tr').removeClass('selected').css('background-color', ''); // Quita la selección de todas las filas y restablece el color
             $(this).addClass('selected');
             $(this).css('background-color', '#FFA500'); // Color de resaltado para la fila seleccionada
             selectedId = $(this).find('td:first').text();
@@ -50,6 +50,16 @@ $(document).ready(function() {
         $('#clientesTable tbody tr').removeClass('selected');
         $(this).addClass('selected');
         selectedId = $(this).find('td:first').text();
+
+        // Obtén el estado de la fila seleccionada
+        var estado = $(this).find('td').eq(4).text().trim();
+
+        // Muestra u oculta la opción 'reactivar' según el estado
+        if (estado === 'I') {
+            $('#reactiveOption').show();
+        } else {
+            $('#reactiveOption').hide();
+        }
 
         // Posicionar el menú contextual cerca del clic
         menu.css({

@@ -76,7 +76,8 @@ public class ClienteController {
     }
 
     @GetMapping("/agregar/cliente")
-    public String agregar(Cliente cliente){
+    public String agregar(Model model){
+        model.addAttribute("cliente", new Cliente());
         return "components/cliente/clienteForm";
     }
 
@@ -84,27 +85,30 @@ public class ClienteController {
     public String guardar(Cliente cliente, Errors errores, RedirectAttributes redirectAttributes) {
 
         String mensajeExito;
+        // Validar si el cliente ya existe antes de guardar
+        if (clienteService.findByNombreAndApellido(cliente.getNombre(), cliente.getApellido())) {
+            String mensajeError = "El cliente: " + cliente.getNombre() + " " + cliente.getApellido() + " ya existe";
+            redirectAttributes.addFlashAttribute("mensajeError", mensajeError);
+            return "redirect:/agregar/cliente"; // Redirigir al formulario con los errores
+        }
+
         if (errores.hasErrors()) {
             return "components/cliente/clienteForm";
         }
-        if (cliente.getEstado() == null || cliente.getEstado().isEmpty()) {
-            cliente.setEstado("A");
-        } else {
-            cliente.setEstado(cliente.getEstado());
-        }
 
-        if (cliente.getIdCliente() != null) {
-            // Si el producto tiene un ID, se está editando
+        if (cliente.getIdCliente() != null && (cliente.getEstado() == null || cliente.getEstado().isEmpty())) {
+            cliente.setEstado(cliente.getEstado());
+            // Si el cliente tiene un ID, se está editando
             clienteService.guardar(cliente);
-            mensajeExito = "Producto editado exitosamente.";
+            mensajeExito = "Cliente editado exitosamente.";
         } else {
-            // Si el producto no tiene un ID, se está creando uno nuevo
+            cliente.setEstado("A");
+            // Si el cliente no tiene un ID, se está creando uno nuevo
             clienteService.guardar(cliente);
-            mensajeExito = "Producto registrado exitosamente.";
+            mensajeExito = "Cliente registrado exitosamente.";
         }
 
         redirectAttributes.addFlashAttribute("mensajeExito", mensajeExito);
-        clienteService.guardar(cliente);
         return "redirect:/cliente/list";
     }
 

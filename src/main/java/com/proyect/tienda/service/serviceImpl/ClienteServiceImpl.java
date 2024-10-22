@@ -2,7 +2,6 @@ package com.proyect.tienda.service.serviceImpl;
 
 import com.proyect.tienda.dao.ClienteDao;
 import com.proyect.tienda.domain.Cliente;
-import com.proyect.tienda.domain.Producto;
 import com.proyect.tienda.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +53,11 @@ public class ClienteServiceImpl implements ClienteService {
     @Transactional(readOnly = true)
     public Cliente encontrarCliente(Cliente cliente) {
         return clienteDao.findById(cliente.getIdCliente()).orElse(null);
+    }
+
+    @Override
+    public boolean findByNombreAndApellido(String nombre, String apellido) {
+        return clienteDao.findByNombreAndApellido(nombre, apellido) != null;
     }
 
     @Override

@@ -15,10 +15,12 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <!-- Para desglosar los subMenus de los Menus -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <link rel="stylesheet" href="/css/styleCategoria.css">
+    <link rel="stylesheet" href="/css/stylePlantilla.css">
     <link rel="stylesheet" href="/css/styleToast.css">
 </head>
 <body>
@@ -58,13 +60,13 @@
 
                                 <div class="col-md-6">
                                     <label for="categoria" class="form-label fw-bold">Categoría</label>
-                                    <input type="text" class="form-control" name="categoria" id="categoria" th:field="*{categoria}" required>
+                                    <input type="text" class="form-control" name="categoria" id="categoria" th:field="*{categoria}" required pattern="[A-Za-zÀ-ÿ\s]+">
                                     <div class="invalid-feedback">La categoría no debe estar vacía.</div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="descripcion" class="form-label fw-bold">Descripción</label>
-                                    <input type="text" class="form-control" name="descripcion" id="descripcion" th:field="*{descripcion}" required>
+                                    <input type="text" class="form-control" name="descripcion" id="descripcion" th:field="*{descripcion}" required pattern="[A-Za-zÀ-ÿ\s]+">
                                     <div class="invalid-feedback">La descripción no debe estar vacía.</div>
                                 </div>
 

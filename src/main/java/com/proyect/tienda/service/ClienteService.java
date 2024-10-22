@@ -1,5 +1,6 @@
 package com.proyect.tienda.service;
 
+import com.proyect.tienda.domain.Categories;
 import com.proyect.tienda.domain.Cliente;
 import com.proyect.tienda.domain.Producto;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,8 @@ public interface ClienteService {
     public void reactivar(Cliente cliente);
 
     public Cliente encontrarCliente(Cliente cliente);
+
+    boolean findByNombreAndApellido(String nombre, String apellido);
 
     @Transactional(readOnly = true)
     Cliente encontrarClientePorId(Long idCliente);
