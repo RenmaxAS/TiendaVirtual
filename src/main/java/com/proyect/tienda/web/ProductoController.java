@@ -72,7 +72,8 @@ public class ProductoController {
         }
 
         if (productoExiste) {
-            model.addAttribute("mensajeError", "El producto ya existe.");
+            String mensajeError = "El producto " + producto.getNombre() + " " + producto.getMarca() + " " + producto.getFormato() + " ya existe";
+            model.addAttribute("mensajeError", mensajeError);
             return "components/producto/productoForm";
         }
 

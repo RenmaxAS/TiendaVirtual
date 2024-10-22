@@ -1,6 +1,7 @@
 package com.proyect.tienda.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,7 +15,13 @@ public class Categories implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "Id")
+    private Long idCategoria;
+
+    @NotEmpty
+    @Column(name = "Categoria")
     private String categoria;
+
+    @Column(name = "Descripcion")
     private String descripcion;
 }

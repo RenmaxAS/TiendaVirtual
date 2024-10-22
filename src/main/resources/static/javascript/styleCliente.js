@@ -61,6 +61,13 @@ $(document).ready(function() {
             $('#reactiveOption').hide();
         }
 
+        // Muestra u oculta la opción 'eliminar' según el estado
+        if (estado === 'A') {
+            $('#deleteOption').show();
+        } else {
+            $('#deleteOption').hide();
+        }
+
         // Posicionar el menú contextual cerca del clic
         menu.css({
             display: "block",

@@ -56,7 +56,7 @@
                     <div class="card">
                         <div class="card-body">
                             <form th:action="@{/guardar/categoria}" method="post" th:object="${categorias}" class="row g-3 needs-validation" novalidate>
-                                <input type="hidden" name="id" th:field="*{id}" />
+                                <input type="hidden" name="id" th:field="*{idCategoria}" />
 
                                 <div class="col-md-6">
                                     <label for="categoria" class="form-label fw-bold">Categoría</label>
@@ -66,7 +66,7 @@
 
                                 <div class="col-md-6">
                                     <label for="descripcion" class="form-label fw-bold">Descripción</label>
-                                    <input type="text" class="form-control" name="descripcion" id="descripcion" th:field="*{descripcion}" required pattern="[A-Za-zÀ-ÿ\s]+">
+                                    <input type="text" class="form-control" name="descripcion" id="descripcion" th:field="*{descripcion}" required >
                                     <div class="invalid-feedback">La descripción no debe estar vacía.</div>
                                 </div>
 

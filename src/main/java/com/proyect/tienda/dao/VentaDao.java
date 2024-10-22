@@ -19,6 +19,6 @@ public interface VentaDao extends JpaRepository<Venta, Long> {
     @Query(value = "SELECT SUM(v.Importe_Total) FROM Venta v WHERE v.Importe_Total > 0.00 AND DATE(v.Fecha_Pedido) = CURRENT_DATE", nativeQuery = true)
     BigDecimal sumAbonosDelDiaTotal();
 
-    @Query(value = "SELECT SUM(v.Importe_Total) as total, DATE(v.Fecha_Pedido) as fecha FROM Venta v WHERE v.Importe_Total > 0.00 AND v.Fecha_Pedido BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) AND CURRENT_DATE GROUP BY DATE(v.Fecha_Pedido)", nativeQuery = true)
+    @Query(value = "SELECT SUM(v.Importe_Total) as total, DATE(v.Fecha_Pedido) as fecha FROM Venta v WHERE v.Importe_Total > 0.00 AND DATE(v.Fecha_Pedido) BETWEEN DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) AND CURRENT_DATE GROUP BY DATE(v.Fecha_Pedido)", nativeQuery = true)
     List<Map<String, Object>> findGananciasDeLaSemanaTotal();
 }

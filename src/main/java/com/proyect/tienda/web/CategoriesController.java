@@ -45,7 +45,7 @@ public class CategoriesController {
             return "redirect:/agregar/categoria"; // Redirigir al formulario con los errores
         }
 
-        if(categories.getId() != null){
+        if(categories.getIdCategoria() != null){
             // Si el producto tiene un ID, se está editando
             categoriesService.guardarCategoria(categories);
             mensajeExito = "Categoria editado exitosamente";
@@ -59,9 +59,9 @@ public class CategoriesController {
         return "redirect:/categoria/list";
     }
 
-    @GetMapping("/editarCategoria/{id}")
-    public String editar(@PathVariable Long id, Model model) {
-        Categories categorias = categoriesService.encontrarCategoriaPorId(id);
+    @GetMapping("/editarCategoria/{idCategoria}")
+    public String editar(@PathVariable Long idCategoria, Model model) {
+        Categories categorias = categoriesService.encontrarCategoriaPorId(idCategoria);
         model.addAttribute("categorias", categorias);
         return "components/categoria/categoriesForm";
     }

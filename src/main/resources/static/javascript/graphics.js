@@ -1,5 +1,5 @@
-/*Para el gráfico de ganancias del día real durante la semana*/
 document.addEventListener("DOMContentLoaded", function() {
+    // Gráfico de ganancias del día real durante la semana
     fetch('/ganancias-semanaReal')
         .then(response => response.json())
         .then(data => {
@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const totals = data.map(item => item.total);
 
             const ctx = document.getElementById('gananciasRealChart').getContext('2d');
-            const gananciasRealChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
@@ -30,11 +30,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
             });
-        });
-});
+        })
+        .catch(error => console.error('Error al cargar datos para ganancias reales:', error));
 
-/*Para el gráfico de ganancias del día total durante la semana*/
-document.addEventListener("DOMContentLoaded", function() {
+    // Gráfico de ganancias del día total durante la semana
     fetch('/ganancias-semanaTotal')
         .then(response => response.json())
         .then(data => {
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const totals = data.map(item => item.total);
 
             const ctx = document.getElementById('gananciasTotalChart').getContext('2d');
-            const gananciasTotalChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
@@ -65,5 +64,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
             });
-        });
+        })
+        .catch(error => console.error('Error al cargar datos para ganancias totales:', error));
 });

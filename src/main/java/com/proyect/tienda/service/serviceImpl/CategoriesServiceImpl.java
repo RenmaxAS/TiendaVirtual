@@ -31,12 +31,12 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     public Categories encontrarCategoria(Categories categories) {
-        return categoriesDao.findById(categories.getId()).orElse(null);
+        return categoriesDao.findById(categories.getIdCategoria()).orElse(null);
     }
 
     @Override
-    public Categories encontrarCategoriaPorId(Long id) {
-        return categoriesDao.findById(id).orElse(null);
+    public Categories encontrarCategoriaPorId(Long idCategoria) {
+        return categoriesDao.findById(idCategoria).orElse(null);
     }
 
     @Override

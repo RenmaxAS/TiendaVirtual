@@ -15,7 +15,7 @@ public interface CategoriesService {
 
     public Categories encontrarCategoria(Categories categories);
 
-    public Categories encontrarCategoriaPorId(Long id);
+    public Categories encontrarCategoriaPorId(Long idCategoria);
 
     public boolean existeCategotia(String categoria);
 }

@@ -73,7 +73,7 @@ $(document).ready(function() {
     $('#deleteOption').on('click', function() {
         if (selectedId) {
             if (confirm('¿Estás seguro que deseas eliminar este cliente?')) {
-                window.location.href = '/eliminarCategoria?id=' + selectedId;
+                window.location.href = '/eliminarCategoria?idCategoria=' + selectedId;
             }
         }
     });
