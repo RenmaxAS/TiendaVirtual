@@ -56,7 +56,12 @@
                     <div class="card">
                         <div class="card-body">
                             <form th:action="@{/guardar/categoria}" method="post" th:object="${categorias}" class="row g-3 needs-validation" novalidate>
-                                <input type="hidden" name="id" th:field="*{idCategoria}" />
+                                <input type="hidden" name="idCategoria" th:field="*{idCategoria}" />
+
+                                <!-- Mostrar mensaje de error si existe -->
+                                <div class="col-12">
+                                    <div class="alert alert-danger" th:if="${mensajeError != null}" th:text="${mensajeError}"></div>
+                                </div>
 
                                 <div class="col-md-6">
                                     <label for="categoria" class="form-label fw-bold">Categoría</label>

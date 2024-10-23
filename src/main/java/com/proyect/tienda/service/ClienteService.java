@@ -24,4 +24,8 @@ public interface ClienteService {
 
     @Transactional(readOnly = true)
     Cliente encontrarClientePorId(Long idCliente);
+
+    public boolean existeCliente(String nombre, String apellido);
+
+    boolean existeClienteExcluyendoId(Long idCliente, String nombre, String apellido);
 }

@@ -18,4 +18,8 @@ public interface CategoriesService {
     public Categories encontrarCategoriaPorId(Long idCategoria);
 
     public boolean existeCategotia(String categoria);
+
+    public boolean existeCategoria(String categoria);
+
+    boolean existeCategoriaExcluyendoId(Long idCategoria, String categoria);
 }

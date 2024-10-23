@@ -23,6 +23,8 @@ public class Producto implements Serializable {
     @Column(name = "Id")
     private Long idProducto;
 
+    private Long idCategoria;
+
     @NotEmpty
     @Column(name = "Nombre")
     private String nombre;

@@ -57,42 +57,47 @@
                       <div class="card-body">
                         <form th:action="@{/guardar/cliente}" method="post" th:object="${cliente}" class="row g-3 needs-validation" novalidate>
 
-                              <input type="hidden" name="idCliente" th:field="*{idCliente}"/>
+                            <input type="hidden" name="idCliente" th:field="*{idCliente}"/>
 
-                              <div class="col-md-4 position-relative">
-                                  <label for="nombre" class="form-label fw-bold" th:text="#{cliente.nombre}"></label>
-                                  <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{nombre}" required pattern="[A-Za-zÀ-ÿ\s]+">
-                                  <div class="invalid-feedback">
+                            <!-- Mostrar mensaje de error si existe -->
+                            <div class="col-12">
+                                <div class="alert alert-danger" th:if="${mensajeError != null}" th:text="${mensajeError}"></div>
+                            </div>
+
+                            <div class="col-md-4 position-relative">
+                                <label for="nombre" class="form-label fw-bold" th:text="#{cliente.nombre}"></label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{nombre}" required pattern="[A-Za-zÀ-ÿ\s]+">
+                                <div class="invalid-feedback">
                                       El nombre no debe estar vacío y no puede contener números.
-                                  </div>
-                              </div>
+                                </div>
+                            </div>
 
-                              <div class="col-md-4 position-relative">
-                                  <label for="apellido" class="form-label fw-bold" th:text="#{cliente.apellido}"></label>
-                                  <input type="text" class="form-control" id="apellido" name="apellido" th:field="*{apellido}" required pattern="[A-Za-zÀ-ÿ\s]+">
-                                  <div class="invalid-feedback">
-                                      El apellido no debe estar vacío y no puede contener números.
-                                  </div>
-                              </div>
+                            <div class="col-md-4 position-relative">
+                                <label for="apellido" class="form-label fw-bold" th:text="#{cliente.apellido}"></label>
+                                <input type="text" class="form-control" id="apellido" name="apellido" th:field="*{apellido}" required pattern="[A-Za-zÀ-ÿ\s]+">
+                                <div class="invalid-feedback">
+                                    El apellido no debe estar vacío y no puede contener números.
+                                </div>
+                            </div>
 
-                              <div class="col-md-4 position-relative">
-                                  <label for="celular" class="form-label fw-bold" th:text="#{cliente.celular}"></label>
-                                  <input type="text" class="form-control" id="celular" name="celular" th:field="*{celular}" pattern="\d{9}">
-                                  <div class="invalid-feedback">
-                                      El celular solo debe contener números.
-                                  </div>
-                                  <div class="invalid-feedback">
-                                      El celular debe contener exactamente 9 dígitos.
-                                  </div>
-                              </div>
+                            <div class="col-md-4 position-relative">
+                                <label for="celular" class="form-label fw-bold" th:text="#{cliente.celular}"></label>
+                                <input type="text" class="form-control" id="celular" name="celular" th:field="*{celular}" pattern="\d{9}">
+                                <div class="invalid-feedback">
+                                    El celular solo debe contener números.
+                                </div>
+                                <div class="invalid-feedback">
+                                    El celular debe contener exactamente 9 dígitos.
+                                </div>
+                            </div>
 
-                              <input type="hidden" name="estado" th:field="*{estado}"/>
+                            <input type="hidden" name="estado" th:field="*{estado}"/>
 
-                              <div class="col-12">
-                                  <button class="btn btn-success" type="submit">
-                                      <i class="bi bi-save"></i> [[#{accion.guardar}]]
-                                  </button>
-                              </div>
+                            <div class="col-12">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="bi bi-save"></i> [[#{accion.guardar}]]
+                                </button>
+                            </div>
                         </form>
                       </div>
                   </div>

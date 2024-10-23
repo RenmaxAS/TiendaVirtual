@@ -36,13 +36,26 @@ public class CategoriesController {
     }
 
     @PostMapping("/guardar/categoria")
-    public String guardar(Categories categories, RedirectAttributes redirectAttributes){
+    public String guardar(@ModelAttribute Categories categories,Errors errores, RedirectAttributes redirectAttributes, Model model){
         String mensajeExito;
-        // Validar si la categoría ya existe antes de guardar
-        if (categoriesService.existeCategotia(categories.getCategoria())) {
-            String mensajeError = "La categoria: "+categories.getCategoria()+" ya existe";
-            redirectAttributes.addFlashAttribute("mensajeError", mensajeError);
-            return "redirect:/agregar/categoria"; // Redirigir al formulario con los errores
+        if (errores.hasErrors()) {
+            model.addAttribute("mensajeError", "Errores en el formulario. Por favor, verifica los campos.");
+            return "components/categoria/categoriesForm";
+        }
+
+        // Verificar si el cliente ya existe, excluyendo el ID del cliente actual (para el caso de edición)
+        boolean categoriaExiste;
+        if (categories.getIdCategoria() != null) {
+            categoriaExiste = categoriesService.existeCategoriaExcluyendoId(categories.getIdCategoria(), categories.getCategoria());
+        } else {
+            categoriaExiste = categoriesService.existeCategoria(categories.getCategoria());
+        }
+
+        if (categoriaExiste) {
+            String mensajeError = "La categoria " + categories.getCategoria() + " ya existe";
+            model.addAttribute("mensajeError", mensajeError);
+            model.addAttribute("categorias", categories); // Asegúrate de agregar esto
+            return "components/categoria/categoriesForm";
         }
 
         if(categories.getIdCategoria() != null){

@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -82,21 +83,29 @@ public class ClienteController {
     }
 
     @PostMapping("/guardar/cliente")
-    public String guardar(Cliente cliente, Errors errores, RedirectAttributes redirectAttributes) {
+    public String guardar(@ModelAttribute Cliente cliente, Errors errores, RedirectAttributes redirectAttributes, Model model) throws IOException {
 
         String mensajeExito;
-        // Validar si el cliente ya existe antes de guardar
-        if (clienteService.findByNombreAndApellido(cliente.getNombre(), cliente.getApellido())) {
-            String mensajeError = "El cliente: " + cliente.getNombre() + " " + cliente.getApellido() + " ya existe";
-            redirectAttributes.addFlashAttribute("mensajeError", mensajeError);
-            return "redirect:/agregar/cliente"; // Redirigir al formulario con los errores
-        }
-
         if (errores.hasErrors()) {
+            model.addAttribute("mensajeError", "Errores en el formulario. Por favor, verifica los campos.");
             return "components/cliente/clienteForm";
         }
 
-        if (cliente.getIdCliente() != null && (cliente.getEstado() == null || cliente.getEstado().isEmpty())) {
+        // Verificar si el cliente ya existe, excluyendo el ID del cliente actual (para el caso de edición)
+        boolean clienteExiste;
+        if (cliente.getIdCliente() != null) {
+            clienteExiste = clienteService.existeClienteExcluyendoId(cliente.getIdCliente(), cliente.getNombre(), cliente.getApellido());
+        } else {
+            clienteExiste = clienteService.existeCliente(cliente.getNombre(), cliente.getApellido());
+        }
+
+        if (clienteExiste) {
+            String mensajeError = "El cliente " + cliente.getNombre() + " " + cliente.getApellido() + " ya existe";
+            model.addAttribute("mensajeError", mensajeError);
+            return "components/cliente/clienteForm";
+        }
+
+        if (cliente.getIdCliente() != null & cliente.getEstado() != null || !cliente.getEstado().isEmpty()) {
             cliente.setEstado(cliente.getEstado());
             // Si el cliente tiene un ID, se está editando
             clienteService.guardar(cliente);

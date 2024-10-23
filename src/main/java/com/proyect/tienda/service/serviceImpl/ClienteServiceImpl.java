@@ -65,4 +65,14 @@ public class ClienteServiceImpl implements ClienteService {
     public Cliente encontrarClientePorId(Long idCliente) {
         return clienteDao.findById(idCliente).orElse(null);
     }
+
+    @Override
+    public boolean existeCliente(String nombre, String apellido) {
+        return clienteDao.existsByNombreAndApellido(nombre, apellido);
+    }
+
+    @Override
+    public boolean existeClienteExcluyendoId(Long idCliente, String nombre, String apellido) {
+        return clienteDao.existsByNombreAndApellidoAndNotId(nombre, apellido, idCliente);
+    }
 }

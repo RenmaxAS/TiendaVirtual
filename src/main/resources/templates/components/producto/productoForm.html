@@ -84,6 +84,19 @@
                                     </div>
 
                                     <div class="row g-3">
+
+                                        <div class="col-md-6">
+                                            <label for="categoria" class="form-label fw-bold" >Categoria:</label>
+                                            <select class="form-select" id="categoria" name="idCategoria" th:field="*{idCategoria}" required>
+                                                <option value="" >Seleccione una categoría</option>
+                                                <option th:each="categoria : ${categorias}" th:value="${categoria.idCategoria}" th:text="${categoria.categoria}">
+                                                </option>
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Debe seleccionar una categoría.
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-6">
                                             <label for="nombre" class="form-label fw-bold" th:text="#{producto.nombre}"></label>
                                             <input type="text" class="form-control" id="nombre" name="nombre" th:field="*{nombre}" maxlength="45" required pattern="[A-Za-zÀ-ÿ\s-ñ]+">

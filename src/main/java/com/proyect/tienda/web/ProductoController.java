@@ -1,6 +1,7 @@
 package com.proyect.tienda.web;
 
 import com.proyect.tienda.domain.Producto;
+import com.proyect.tienda.service.CategoriesService;
 import com.proyect.tienda.service.ProductoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
+    @Autowired
+    private CategoriesService categoriesService;
+
     @GetMapping("/producto/list")
     public String productoList(@RequestParam(value = "estado", required = false) String estado,
                                @RequestParam(value = "vencer", required = false) Boolean vencer,
@@ -49,7 +53,9 @@ public class ProductoController {
     }
 
     @GetMapping("/agregar/producto")
-    public String agregar(Producto producto){
+    public String agregar(Model model){
+        model.addAttribute("producto", new Producto());
+        model.addAttribute("categorias", categoriesService.listarCategoria());
         return "components/producto/productoForm";
     }
 
@@ -131,17 +137,13 @@ public class ProductoController {
             }
         }
 
-        if (producto.getEstado() == null || producto.getEstado().isEmpty()) {
-            producto.setEstado("A");
-        } else {
+        if (producto.getIdProducto() != null & producto.getEstado() != null || !producto.getEstado().isEmpty()) {
             producto.setEstado(producto.getEstado());
-        }
-
-        if (producto.getIdProducto() != null) {
             // Si el producto tiene un ID, se está editando
             productoService.guardar(producto);
             mensajeExito = "Producto editado exitosamente.";
         } else {
+            producto.setEstado("A");
             // Si el producto no tiene un ID, se está creando uno nuevo
             productoService.guardar(producto);
             mensajeExito = "Producto registrado exitosamente.";
@@ -162,6 +164,7 @@ public class ProductoController {
 
         // Agregar el producto al modelo
         model.addAttribute("producto", producto);
+        model.addAttribute("categorias", categoriesService.listarCategoria());
 
         return "components/producto/productoForm";
     }

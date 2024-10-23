@@ -43,4 +43,14 @@ public class CategoriesServiceImpl implements CategoriesService {
     public boolean existeCategotia(String categoria) {
         return categoriesDao.findByCategoria(categoria) != null;
     }
+
+    @Override
+    public boolean existeCategoria(String categoria) {
+        return categoriesDao.existsByCategoria(categoria);
+    }
+
+    @Override
+    public boolean existeCategoriaExcluyendoId(Long idCategoria, String categoria) {
+        return categoriesDao.existsByCategoriaNotId(categoria, idCategoria);
+    }
 }
